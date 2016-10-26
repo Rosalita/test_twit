@@ -34,7 +34,7 @@ access_token_secret <- "xxxxxxxxxxxxxxxxxxxx"
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Grab latest tweets
-latest_tweets <- searchTwitter("#testbash", n=100)
+latest_tweets <- searchTwitter("#testbash", n=10)
 
 # Loop over tweets and extract text
 library(plyr)
@@ -63,6 +63,10 @@ bad.list = str_split(bad, '\\s+')   # split into a list of words
 bad_text = unlist(bad.list)         # make sure words is a vector, not a list
 bad_text = bad_text[1:(length(bad_text) -1)] # the last item appears to be "", so just trim it off
 
+# initialise some global variables
+positivity <- NULL
+negativity <- NULL
+
 # Now score the text of each tweet based on count of positive and negative words used.
 
 score.sentiment = function(sentences, good_text, bad_text, .progress='none')
@@ -87,25 +91,29 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
     # compare our words to the dictionaries of positive & negative terms
     pos.matches = match(words, good_text)
     neg.matches = match(words, bad_text)
-  
-    # identify the words which matched positivesly or negatively
-    pos.words = good_text[pos.matches] # apply index of pos matches to get pos words
-    pos.words = pos.words[!is.na(pos.words)] # remove any NA values
-    neg.words = bad_text[neg.matches] # apply index of neg matches to get neg words
-    neg.words = neg.words[!is.na(neg.words)] # remove any NA values   
     
-    # if there are no positive or negative words set these values to NA
-    if (length(pos.words) == 0){
-      pos.words = NA
-    }
-    if (length(neg.words) == 0){
-      neg.words = NA
-    }
-      
     # match() returns the position of the matched term or NA
     # convert matches to TRUE/FALSE instead
     pos.matches = !is.na(pos.matches)
     neg.matches = !is.na(neg.matches)
+    
+    #if any positive matches
+    if (any(pos.matches)){
+      pos.words = good_text[pos.matches] # apply index of pos matches to get pos words
+      pos.words = pos.words[!is.na(pos.words)] # remove any NA values
+      # append positive words to global positivity variable
+      positivity <<- append(positivity, pos.words)
+    }
+    
+    # identify the words which matched positively or negatively
+    # maybe use <<- to set pos.words and neg.words as global variables?
+    if (any(neg.matches)){
+      neg.words = bad_text[neg.matches] # apply index of neg matches to get neg words
+      neg.words = neg.words[!is.na(neg.words)] # remove any NA values 
+      #append negative words to global negativity variable
+      negativity <<- append(negativity, neg.words)
+    }
+   
     
     # TRUE/FALSE is treated as 1/0 by sum(), so add up the score
     score = sum(pos.matches) - sum(neg.matches)
@@ -121,5 +129,10 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
 # Call the score sentiment function and return a data frame
 feelings <- score.sentiment(tweet_text, good_text, bad_text, .progress='text')
 
-# To Do, collect positive words? some kind of plot?
+#seems like too many positive and negative words are recorded.
+
+ptable <- table(positivity)
+ntable <- table(negativity)
+
+# To Do, some kind of plot?
 
