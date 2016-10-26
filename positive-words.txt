@@ -921,6 +921,10 @@ honor
 honorable
 honored
 honoring
+honour
+honourable
+honoured
+honouring
 hooray
 hopeful
 hospitable
@@ -1359,6 +1363,7 @@ prodigiously
 prodigy
 productive
 productively
+professional
 proficient
 proficiently
 profound

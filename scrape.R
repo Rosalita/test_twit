@@ -6,7 +6,7 @@
 # The readr package reads a file into a string
 
 #install.packages("twitteR")
-#install.packages("ROAuth")
+#install.packages("ROAuth", dependencies = TRUE)
 #install.packages("httr")
 #install.packages("stringr")
 #install.packages("readr")
@@ -42,6 +42,7 @@ library(plyr)
 tweet_text = laply(latest_tweets, function(x) x$getText())
 tweet_text <- iconv(tweet_text, to='UTF-8') # convert all tweets to UTF8 to make emojis play nice
 
+
 # As a starting point, use the Hu and Liu Opinion Lexicon 
 # from http://www.cs.uic.edu/~liub/FBS/opinion-lexicon-English.rar
 # This is two lists, one of positive words and one of negative words
@@ -73,12 +74,12 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
   # we want a simple array of scores back, so we use
   # "l" + "a" + "ply" = "laply":
   scores = laply(sentences, function(sentence, good_text, bad_text) {
-  
+    
     # clean up each sentence with R's regex-driven global substitute, gsub():
     sentence = gsub('[[:punct:]]', '', sentence)  # strips out punctuation
     sentence = gsub('[[:cntrl:]]', '', sentence)  # strips out control characters, like \n or \r 
     sentence = gsub('\\d+', '', sentence)         # strips out numbers
-    sentence <- iconv(sentence, 'UTF-8', 'ASCII') # removes emojis
+    sentence <- iconv(sentence, to='UTF-8')       # convert to UTF8
     sentence = tolower(sentence)                  # converts all text to lower case     
     word.list = str_split(sentence, '\\s+')       # split into a list of words
     words = unlist(word.list)                     # make sure words is a vector, not a list
@@ -86,16 +87,30 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
     # compare our words to the dictionaries of positive & negative terms
     pos.matches = match(words, good_text)
     neg.matches = match(words, bad_text)
+  
+    # identify the words which matched positivesly or negatively
+    pos.words = good_text[pos.matches] # apply index of pos matches to get pos words
+    pos.words = pos.words[!is.na(pos.words)] # remove any NA values
+    neg.words = bad_text[neg.matches] # apply index of neg matches to get neg words
+    neg.words = neg.words[!is.na(neg.words)] # remove any NA values   
     
+    # if there are no positive or negative words set these values to NA
+    if (length(pos.words) == 0){
+      pos.words = NA
+    }
+    if (length(neg.words) == 0){
+      neg.words = NA
+    }
+      
     # match() returns the position of the matched term or NA
-    # we just want a TRUE/FALSE:
+    # convert matches to TRUE/FALSE instead
     pos.matches = !is.na(pos.matches)
     neg.matches = !is.na(neg.matches)
     
-    # and conveniently enough, TRUE/FALSE will be treated as 1/0 by sum():
+    # TRUE/FALSE is treated as 1/0 by sum(), so add up the score
     score = sum(pos.matches) - sum(neg.matches)
     
-    return(score)
+   return(score)
   }, good_text, bad_text, .progress=.progress )
   
   scores.df = data.frame(score=scores, text=sentences)
