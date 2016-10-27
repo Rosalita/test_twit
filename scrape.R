@@ -148,17 +148,14 @@ ntable <- table(negativity)
 dfp <- as.data.frame(positivity)
 dfn <- as.data.frame(negativity)
 
-# To Do, some kind of plot?
-# word cloud
+# Word clouds
 
 library(tm)
 library(wordcloud)
 
-# make a corpus
+# make a corpus for positive and negative words
 pcorp = Corpus(VectorSource(positivity))
 ncorp = Corpus(VectorSource(negativity))
-
-
 
 pcorp <- tm_map(pcorp, PlainTextDocument)
 ncorp <- tm_map(ncorp, PlainTextDocument)
@@ -166,15 +163,35 @@ ncorp <- tm_map(ncorp, PlainTextDocument)
 # Basic Wordcloud
 # wordcloud(pcorp, max.words = 100, random.order = FALSE)
 
+# Set the display a 2 by 2 grid
+# par(mfrow=c(2,2))
+# Margins, bottom, left, top, right (default is  c(5.1, 4.1, 4.1, 2.1))
+# par(mar=c(9.3,4.1,4.1,2.1))
+# par(mfrow=c(2,2))
+# par(cex.axis=1.3)
+# par(cex.main=1.3)
+
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(4,0.5), 
+          scale=c(4,1), 
           max.words=100,
           min.freq=-1,
           random.order=FALSE, 
-          rot.per=0.5, 
+          rot.per=0.2, 
           use.r.layout=FALSE, 
-          colors=brewer.pal(5, "Blues"))
+          colors = c("#7BEACF",
+                     "#73E9D8",
+                     "#6CE8E3", 
+                     "#65DFE7", 
+                     "#5ED0E7",
+                     "#57C0E6", 
+                     "#50AEE5", 
+                     "#499BE5", 
+                     "#4287E4",
+                     "#3B71E3",
+                     "#355AE3"))
+
+         # colors=brewer.pal(5, "BuGn"))
 
 # Negative Wordcloud
 wordcloud(ncorp, 
@@ -182,10 +199,21 @@ wordcloud(ncorp,
           max.words=100, 
           min.freq=-1,
           random.order=FALSE, 
-          rot.per=0.5, 
+          rot.per=0.2, 
           use.r.layout=FALSE, 
-          colors=brewer.pal(4, "Reds"))
+          colors = c("#E1934C",
+                     "#D88545",
+                     "#D0783E", 
+                     "#C86B38", 
+                     "#C05E31",
+                     "#B8512B", 
+                     "#AF4324", 
+                     "#A7361D", 
+                     "#9F2917",
+                     "#971C10",
+                     "#8F0F0A"))
+
+         # colors=brewer.pal(5, "Reds"))
 
 #display.brewer.all()
-
 
