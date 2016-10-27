@@ -46,7 +46,7 @@ access_token_secret <- TWITTOKENSECRET
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Grab latest tweets
-latest_tweets <- searchTwitter("#testing", n=10)
+latest_tweets <- searchTwitter("#testing", n=100)
 
 # Loop over tweets and extract text
 library(plyr)
@@ -145,7 +145,47 @@ feelings <- score.sentiment(tweet_text, good_text, bad_text, .progress='text')
 ptable <- table(positivity)
 ntable <- table(negativity)
 
-tweet_text
+dfp <- as.data.frame(positivity)
+dfn <- as.data.frame(negativity)
 
 # To Do, some kind of plot?
+# word cloud
+
+library(tm)
+library(wordcloud)
+
+# make a corpus
+pcorp = Corpus(VectorSource(positivity))
+ncorp = Corpus(VectorSource(negativity))
+
+
+
+pcorp <- tm_map(pcorp, PlainTextDocument)
+ncorp <- tm_map(ncorp, PlainTextDocument)
+
+# Basic Wordcloud
+# wordcloud(pcorp, max.words = 100, random.order = FALSE)
+
+# Positive Wordcloud
+wordcloud(pcorp, 
+          scale=c(4,0.5), 
+          max.words=100,
+          min.freq=-1,
+          random.order=FALSE, 
+          rot.per=0.5, 
+          use.r.layout=FALSE, 
+          colors=brewer.pal(5, "Blues"))
+
+# Negative Wordcloud
+wordcloud(ncorp, 
+          scale=c(4,0.5), 
+          max.words=100, 
+          min.freq=-1,
+          random.order=FALSE, 
+          rot.per=0.5, 
+          use.r.layout=FALSE, 
+          colors=brewer.pal(4, "Reds"))
+
+#display.brewer.all()
+
 
