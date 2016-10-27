@@ -4,37 +4,49 @@
 # The httr package provides useful tools for working with HTTP, GET(), POST() etc.
 # The stringr package provides useful string operations
 # The readr package reads a file into a string
+# The tm package is a framework for text mining packages within R
+# The wordcloud package lets you make pretty word clouds
+
 
 #install.packages("twitteR")
 #install.packages("ROAuth", dependencies = TRUE)
 #install.packages("httr")
 #install.packages("stringr")
 #install.packages("readr")
+#install.packages("tm", dependencies = TRUE)
+#install.packages("wordcloud", dependencies = TRUE)
 
 library(twitteR)
 library(ROAuth)
 library(httr)
 library(stringr)
 library(readr)
+library(tm)
+library(wordcloud)
 
 # Set working directory to project root
-#setwd("C:/Dev/git/test_twit")
-setwd("C:/git/test_twit")
+setwd("C:/Dev/git/test_twit")
+#setwd("C:/git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
 # Once app is created, this will give Keys and Access tokens
 
-# Set API Keys - Note: for security, keep secrets secret! 
-# API Secret and Access Token Secret should never be human readable, remember not to commit them!
+# For security, to keep secrets secret they are stored in environment variables! 
+# API Secret and Access Token Secret should never be human readable,
+
+TWITAPISECRET <- Sys.getenv("TWITAPISECRET") 
+TWITTOKENSECRET <- Sys.getenv("TWITTOKENSECRET")
+
+# Set API Keys 
 api_key <- "aVXP1fw3fyxFFYfSDsAKje3vy"
-api_secret <- "xxxxxxxxxxxxxxxxxxxx"
+api_secret <- TWITAPISECRET
 access_token <- "69366834-DdbmXBAxgxybC27MSBK3gaojj26Qcdr5Mi1rSzGpd"
-access_token_secret <- "xxxxxxxxxxxxxxxxxxxx"
+access_token_secret <- TWITTOKENSECRET 
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Grab latest tweets
-latest_tweets <- searchTwitter("#testing", n=1000)
+latest_tweets <- searchTwitter("#testing", n=10)
 
 # Loop over tweets and extract text
 library(plyr)
@@ -132,6 +144,8 @@ feelings <- score.sentiment(tweet_text, good_text, bad_text, .progress='text')
 #tally up all the positive and negative words in a table.
 ptable <- table(positivity)
 ntable <- table(negativity)
+
+tweet_text
 
 # To Do, some kind of plot?
 
