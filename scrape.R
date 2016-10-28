@@ -46,7 +46,7 @@ access_token_secret <- TWITTOKENSECRET
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Grab latest tweets
-latest_tweets <- searchTwitter("#testing", n=100)
+latest_tweets <- searchTwitter("#testbash", n=1000)
 
 # Loop over tweets and extract text
 library(plyr)
@@ -163,33 +163,41 @@ ncorp <- tm_map(ncorp, PlainTextDocument)
 # Basic Wordcloud
 # wordcloud(pcorp, max.words = 100, random.order = FALSE)
 
+# Start a new plot frame
+plot.new()
+
 # Set the display a 2 by 2 grid
-# par(mfrow=c(2,2))
+ par(mfrow=c(1,2))
+
 # Margins, bottom, left, top, right (default is  c(5.1, 4.1, 4.1, 2.1))
+ par(mar=c(5.1,2,4.1,2))
 # par(mar=c(9.3,4.1,4.1,2.1))
 # par(mfrow=c(2,2))
 # par(cex.axis=1.3)
 # par(cex.main=1.3)
-
+ 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(4,1), 
+          scale=c(3,1), 
           max.words=100,
           min.freq=-1,
           random.order=FALSE, 
           rot.per=0.2, 
           use.r.layout=FALSE, 
-          colors = c("#7BEACF",
-                     "#73E9D8",
-                     "#6CE8E3", 
-                     "#65DFE7", 
-                     "#5ED0E7",
-                     "#57C0E6", 
-                     "#50AEE5", 
-                     "#499BE5", 
-                     "#4287E4",
-                     "#3B71E3",
-                     "#355AE3"))
+          # Nice custom blue to green sequential colours
+          colors = c(#"#ACF8A5",
+                     #"#8DE99B",
+                     #"#77DB9D", 
+                     "#63CDA4", 
+                     "#50BFAE",
+                     "#3FA7B1", 
+                     "#307EA2", 
+                     "#235594", 
+                     "#172F86",
+                     "#100E78",
+                     "#200569"))
+
+text(x=0.5, y=1, "Title of my first plot")
 
          # colors=brewer.pal(5, "BuGn"))
 
@@ -201,19 +209,25 @@ wordcloud(ncorp,
           random.order=FALSE, 
           rot.per=0.2, 
           use.r.layout=FALSE, 
-          colors = c("#E1934C",
-                     "#D88545",
-                     "#D0783E", 
-                     "#C86B38", 
-                     "#C05E31",
-                     "#B8512B", 
-                     "#AF4324", 
-                     "#A7361D", 
-                     "#9F2917",
-                     "#971C10",
-                     "#8F0F0A"))
+          # Nice custom yellow to red colours
+          colors = c("#FFDE6A",
+                     "#F4C55C",
+                     "#E9AC4F", 
+                     "#DF9343", 
+                     "#D47A37",
+                     "#CA612D", 
+                     "#BF4A23", 
+                     "#B4331A", 
+                     "#AA1D11",
+                     "#9F0A0C",
+                     "#950312"))
 
          # colors=brewer.pal(5, "Reds"))
 
+text(x=0.5, y=1, "Title of my second plot")
+
 #display.brewer.all()
+
+
+
 
