@@ -145,9 +145,6 @@ feelings <- score.sentiment(tweet_text, good_text, bad_text, .progress='text')
 ptable <- table(positivity)
 ntable <- table(negativity)
 
-dfp <- as.data.frame(positivity)
-dfn <- as.data.frame(negativity)
-
 # Word clouds
 
 library(tm)
@@ -167,19 +164,23 @@ ncorp <- tm_map(ncorp, PlainTextDocument)
 plot.new()
 
 # Set the display a 2 by 2 grid
- par(mfrow=c(1,2))
+par(mfrow=c(1,2))
 
-# Margins, bottom, left, top, right (default is  c(5.1, 4.1, 4.1, 2.1))
- par(mar=c(5.1,2,4.1,2))
+# Outer Margins
+par(oma=c(0.5,1,0.5,1))
+# Margins, bottom, left, top, right (default is  c(5,4,4,2))
+par(mar=c(0.1,1,5,1))
+
 # par(mar=c(9.3,4.1,4.1,2.1))
 # par(mfrow=c(2,2))
 # par(cex.axis=1.3)
 # par(cex.main=1.3)
- 
+
+
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(3,1), 
-          max.words=100,
+          scale=c(3,0.5), 
+          max.words=200,
           min.freq=-1,
           random.order=FALSE, 
           rot.per=0.2, 
@@ -197,21 +198,22 @@ wordcloud(pcorp,
                      "#100E78",
                      "#200569"))
 
-text(x=0.5, y=1, "Title of my first plot")
+text(x=-0.05, y=0.5, "Positive Words", srt=90)
 
+#mtext("This is my margin text", side=2, line =1)
          # colors=brewer.pal(5, "BuGn"))
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(4,0.5), 
-          max.words=100, 
+          scale=c(3,0.5), 
+          max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
           rot.per=0.2, 
           use.r.layout=FALSE, 
           # Nice custom yellow to red colours
-          colors = c("#FFDE6A",
-                     "#F4C55C",
+          colors = c(#"#FFDE6A",
+                     #"#F4C55C",
                      "#E9AC4F", 
                      "#DF9343", 
                      "#D47A37",
@@ -219,12 +221,14 @@ wordcloud(ncorp,
                      "#BF4A23", 
                      "#B4331A", 
                      "#AA1D11",
-                     "#9F0A0C",
-                     "#950312"))
+                     "#9F0A0C"))
+                     #"#950312"))
 
          # colors=brewer.pal(5, "Reds"))
 
-text(x=0.5, y=1, "Title of my second plot")
+text(x=1.05, y=0.5, "Negative Words", srt=270)
+#mtext("This is my margin text", side=4, line =0, adj=1)
+
 
 #display.brewer.all()
 
