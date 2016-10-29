@@ -25,8 +25,8 @@ library(tm)
 library(wordcloud)
 
 # Set working directory to project root
-setwd("C:/Dev/git/test_twit")
-#setwd("C:/git/test_twit")
+#setwd("C:/Dev/git/test_twit")
+setwd("C:/git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -45,8 +45,24 @@ access_token <- "69366834-DdbmXBAxgxybC27MSBK3gaojj26Qcdr5Mi1rSzGpd"
 access_token_secret <- TWITTOKENSECRET 
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
-# Grab latest tweets
-latest_tweets <- searchTwitter("#testbash", n=1000)
+# Collected 2840 tweets on 29-10-2016 with hashtag #testbash
+# first tweet at 2016-10-19 17:25:17 last tweet at 2016-10-29 07:39:26
+# latest_tweets <- searchTwitter("#testbash", n=2840)
+
+# this had to be done as twitter api only stores a sample of tweets for a 
+# around 10 daysweek so this information needs to be collected and saved
+
+# converted tweets collected to a data frame.
+# tweetdf <- twListToDF(latest_tweets)
+
+# saved the dataframe object as a .Rda file
+# saveRDS(tweetdf,file="testbashtweets.Rda")
+
+# load dataframe of testbash tweets which intend to perform analysis on
+
+testbashtweets <- readRDS("testbashtweets.Rda")
+
+
 
 # Loop over tweets and extract text
 library(plyr)
