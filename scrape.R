@@ -35,15 +35,15 @@ setwd("C:/git/test_twit")
 # For security, to keep secrets secret they are stored in environment variables! 
 # API Secret and Access Token Secret should never be human readable,
 
-TWITAPISECRET <- Sys.getenv("TWITAPISECRET") 
-TWITTOKENSECRET <- Sys.getenv("TWITTOKENSECRET")
+#TWITAPISECRET <- Sys.getenv("TWITAPISECRET") 
+#TWITTOKENSECRET <- Sys.getenv("TWITTOKENSECRET")
 
 # Set API Keys 
-api_key <- "aVXP1fw3fyxFFYfSDsAKje3vy"
-api_secret <- TWITAPISECRET
-access_token <- "69366834-DdbmXBAxgxybC27MSBK3gaojj26Qcdr5Mi1rSzGpd"
-access_token_secret <- TWITTOKENSECRET 
-setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
+#api_key <- "aVXP1fw3fyxFFYfSDsAKje3vy"
+#api_secret <- TWITAPISECRET
+#access_token <- "69366834-DdbmXBAxgxybC27MSBK3gaojj26Qcdr5Mi1rSzGpd"
+#access_token_secret <- TWITTOKENSECRET 
+#setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Collected 2840 tweets on 29-10-2016 with hashtag #testbash
 # first tweet at 2016-10-19 17:25:17 last tweet at 2016-10-29 07:39:26
@@ -64,10 +64,12 @@ testbashtweets <- readRDS("testbashtweets.Rda")
 
 
 
-# Loop over tweets and extract text
-library(plyr)
+# extract tweet text
+tweet_text <- testbashtweets$text
+
+#library(plyr)
 # laply splits a list, applies function, then returns results in an array
-tweet_text = laply(latest_tweets, function(x) x$getText())
+#tweet_text = laply(latest_tweets, function(x) x$getText())
 tweet_text <- iconv(tweet_text, to='UTF-8') # convert all tweets to UTF8 to make emojis play nice
 
 
@@ -183,9 +185,9 @@ plot.new()
 par(mfrow=c(1,2))
 
 # Outer Margins
-par(oma=c(0.5,1,0.5,1))
+par(oma=c(0.5,0.1,0.5,0.1))
 # Margins, bottom, left, top, right (default is  c(5,4,4,2))
-par(mar=c(0.1,1,5,1))
+par(mar=c(0.1,3,0.1,3))
 
 # par(mar=c(9.3,4.1,4.1,2.1))
 # par(mfrow=c(2,2))
@@ -195,7 +197,7 @@ par(mar=c(0.1,1,5,1))
 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(3,0.5), 
+          scale=c(3,0.8), 
           max.words=200,
           min.freq=-1,
           random.order=FALSE, 
@@ -214,14 +216,14 @@ wordcloud(pcorp,
                      "#100E78",
                      "#200569"))
 
-text(x=-0.05, y=0.5, "Positive Words", srt=90)
+text(x=-0.03, y=0.5, "Positive Words", srt=90)
 
 #mtext("This is my margin text", side=2, line =1)
          # colors=brewer.pal(5, "BuGn"))
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(3,0.5), 
+          scale=c(3,0.8), 
           max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
@@ -242,7 +244,7 @@ wordcloud(ncorp,
 
          # colors=brewer.pal(5, "Reds"))
 
-text(x=1.05, y=0.5, "Negative Words", srt=270)
+text(x=1.03, y=0.5, "Negative Words", srt=270)
 #mtext("This is my margin text", side=4, line =0, adj=1)
 
 
