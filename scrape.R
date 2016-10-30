@@ -63,9 +63,22 @@ setwd("C:/git/test_twit")
 testbashtweets <- readRDS("testbashtweets.Rda")
 
 
+#clean up the tweets because we want to perform analysis on test bash Manchester
+
+#create an index of tweets about testbash events in Philadelphia, Brighton and Netherlands
+othersindex <- grep("Philadelphia|Philly|Philad|Brighton|Netherlands", testbashtweets[,1])
+
+#407 is false positive that mentions testbash manchester and netherlands so remove it from index
+othersindex <- othersindex[which(othersindex!=407)] 
+
+#apply index to tweets to discard tweets about non-manchester events
+testbashtweets  <- testbashtweets[-othersindex,]
+
 
 # extract tweet text
 tweet_text <- testbashtweets$text
+
+
 
 #library(plyr)
 # laply splits a list, applies function, then returns results in an array
