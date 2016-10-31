@@ -15,6 +15,7 @@
 #install.packages("readr")
 #install.packages("tm", dependencies = TRUE)
 #install.packages("wordcloud", dependencies = TRUE)
+#install.packages("ggplot2")
 
 library(twitteR)
 library(ROAuth)
@@ -23,6 +24,7 @@ library(stringr)
 library(readr)
 library(tm)
 library(wordcloud)
+library(ggplot2)
 
 # Set working directory to project root
 #setwd("C:/Dev/git/test_twit")
@@ -74,6 +76,8 @@ othersindex <- othersindex[which(othersindex!=407)]
 #apply index to tweets to discard tweets about non-manchester events
 testbashtweets  <- testbashtweets[-othersindex,]
 
+#fix row names after removing some rows
+row.names(testbashtweets) <- 1:nrow(testbashtweets)
 
 # extract tweet text
 tweet_text <- testbashtweets$text
@@ -172,6 +176,12 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
 # Call the score sentiment function and return a data frame
 feelings <- score.sentiment(tweet_text, good_text, bad_text, .progress='text')
 
+sentiment_score <- feelings$score
+
+#bind the sentiment scores onto the tweet dataframe
+testbashtweets <- cbind(testbashtweets,sentiment_score)
+
+
 #tally up all the positive and negative words in a table.
 ptable <- table(positivity)
 ntable <- table(negativity)
@@ -263,6 +273,32 @@ text(x=1.03, y=0.5, "Negative Words", srt=270)
 
 #display.brewer.all()
 
+#$created is date and time in POSIXct format
+str(testbashtweets$created)
+
+#separate out the date from the time 
+justdate <- as.Date(testbashtweets$created)
+justtime <- format(testbashtweets$created,"%H:%M:%S")
+
+#bind separated date and time onto tweet dataframe
+testbashtweets <- cbind(testbashtweets, justdate, justtime)
+
+# subset the data to identify tweets created on 21-10-16, the day of the conference. 
+index <- which(testbashtweets[,18] == "2016-10-21")
+confdaytweets <- testbashtweets[index,]
+
+confdaytweets$created <- as.character(confdaytweets$created)
+confdaytweets$created <- as.POSIXct(test, format="%Y-%m-%d %H:%M:%S")
+
+
+# plot tweets on 21-10-16, the day of the conference by time and sentiment
+ggplot(confdaytweets, aes(created, sentiment_score, colour=screenName))+
+  geom_point() +
+  geom_jitter()+
+  ggtitle("Sentiment of tweets")+
+  labs(x="Time", y="Sentiment Score")+
+  scale_colour_hue(guide=FALSE) #to remove legend 
+  scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M") #use scale_*_datetime for POSIXct variables
 
 
 
