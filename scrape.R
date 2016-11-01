@@ -295,9 +295,11 @@ confdaytweets[1,19] = "2016-10-21 08:00:00 GMT" #start time
 confdaytweets[2,19] = "2016-10-21 17:45:00 GMT" #end time
 
 str(confdaytweets$lines)
-# convert location of lines to dates to POSIXlt
-confdaytweets$lines <- as.POSIXlt(confdaytweets$lines, tz="GMT")
 
+# convert location of lines to dates to POSIXlt
+confdaytweets$lines <- as.POSIXct(confdaytweets$lines, tz="GMT")
+
+str(confdaytweets$lines)
 
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
@@ -328,7 +330,9 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
                                "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
   #geom_vline(xintercept = as.numeric(confdaytweets[which(confdaytweets[,19] == 1),5]))  
   geom_vline(xintercept = as.numeric(confdaytweets[1,19]))+
-  geom_vline(xintercept = as.numeric(confdaytweets[2,19])) 
+  geom_vline(xintercept = as.numeric(confdaytweets[2,19]))+ 
+  #geom_rect(aes(xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf), alpha=0.2, fill="red")
+  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf, alpha=0.2, fill="red")
   
 plot
   
