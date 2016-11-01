@@ -271,10 +271,6 @@ text(x=1.03, y=0.5, "Negative Words", srt=270)
 #mtext("This is my margin text", side=4, line =0, adj=1)
 
 
-#display.brewer.all()
-
-#$created is date and time in POSIXct format
-str(testbashtweets$created)
 
 #separate out the date from the tweet creation time stamp
 justdate <- as.Date(testbashtweets$created)
@@ -287,10 +283,21 @@ testbashtweets <- cbind(testbashtweets, justdate)
 index <- which(testbashtweets[,18] == "2016-10-21")
 confdaytweets <- testbashtweets[index,]
 
-str(confdaytweets$created)
+#correct row names for confdaytweets dataframe
+row.names(confdaytweets) <- 1:nrow(confdaytweets)
 
-#confdaytweets$created <- as.character(confdaytweets$created)
-#confdaytweets$created <- as.POSIXct(test, format="%Y-%m-%d %H:%M:%S")
+#bind a column on to conference day tweets to hold dates of dividing lines on plot
+lines <- NA
+confdaytweets <- cbind(confdaytweets, lines)
+
+#indicate first line is at 08:00 am
+confdaytweets[1,19] = "2016-10-21 08:00:00 GMT" #start time
+confdaytweets[2,19] = "2016-10-21 17:45:00 GMT" #end time
+
+str(confdaytweets$lines)
+# convert location of lines to dates to POSIXlt
+confdaytweets$lines <- as.POSIXlt(confdaytweets$lines, tz="GMT")
+
 
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
@@ -303,6 +310,7 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   #scale_colour_hue(guide=FALSE)+ #to remove legend 
   scale_x_datetime(date_breaks = "2 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
   scale_y_continuous(breaks = c(-3,-2,-1,0,1,2,3,4,5,6))+
+ 
   # Colour the scatter plot by sentiment
   # Sentiment is a discrete scale from -3 to 6 
   # Define some custom colours for these 10 discrete values
@@ -317,7 +325,12 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
                     labels = c("6 : Very Positive", "5", "4", "3", "2", "1", "0 : Neutral", "-1", "-2", "-3 : Negative"),
                     values = c("#E70255", "#EA0495", "#EC07D5", 
                                "#C809EF", "#8D0CF2", "#520EF4", 
-                               "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))
-
-plot 
+                               "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
+  #geom_vline(xintercept = as.numeric(confdaytweets[which(confdaytweets[,19] == 1),5]))  
+  geom_vline(xintercept = as.numeric(confdaytweets[1,19]))+
+  geom_vline(xintercept = as.numeric(confdaytweets[2,19])) 
+  
+plot
+  
+  
 
