@@ -27,8 +27,8 @@ library(wordcloud)
 library(ggplot2)
 
 # Set working directory to project root
-#setwd("C:/Dev/git/test_twit")
-setwd("C:/git/test_twit")
+setwd("C:/Dev/git/test_twit")
+#setwd("C:/git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -276,29 +276,48 @@ text(x=1.03, y=0.5, "Negative Words", srt=270)
 #$created is date and time in POSIXct format
 str(testbashtweets$created)
 
-#separate out the date from the time 
+#separate out the date from the tweet creation time stamp
 justdate <- as.Date(testbashtweets$created)
-justtime <- format(testbashtweets$created,"%H:%M:%S")
+#justtime <- format(testbashtweets$created,"%H:%M:%S")
 
-#bind separated date and time onto tweet dataframe
-testbashtweets <- cbind(testbashtweets, justdate, justtime)
+#bind date onto the dataframe
+testbashtweets <- cbind(testbashtweets, justdate)
 
 # subset the data to identify tweets created on 21-10-16, the day of the conference. 
 index <- which(testbashtweets[,18] == "2016-10-21")
 confdaytweets <- testbashtweets[index,]
 
-confdaytweets$created <- as.character(confdaytweets$created)
-confdaytweets$created <- as.POSIXct(test, format="%Y-%m-%d %H:%M:%S")
+str(confdaytweets$created)
+
+#confdaytweets$created <- as.character(confdaytweets$created)
+#confdaytweets$created <- as.POSIXct(test, format="%Y-%m-%d %H:%M:%S")
 
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
-ggplot(confdaytweets, aes(created, sentiment_score, colour=screenName))+
-  geom_point() +
-  geom_jitter()+
-  ggtitle("Sentiment of tweets")+
+plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
+  #geom_jitter()+
+ # geom_point(aes(color = factor(sentiment_score))) +
+  geom_jitter(aes(color = factor(sentiment_score)))+ 
+  ggtitle("Test Bash Manchester Tweets on 21-10-31")+
   labs(x="Time", y="Sentiment Score")+
-  scale_colour_hue(guide=FALSE) #to remove legend 
-  scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M") #use scale_*_datetime for POSIXct variables
+  #scale_colour_hue(guide=FALSE)+ #to remove legend 
+  scale_x_datetime(date_breaks = "2 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
+  scale_y_continuous(breaks = c(-3,-2,-1,0,1,2,3,4,5,6))+
+  # Colour the scatter plot by sentiment
+  # Sentiment is a discrete scale from -3 to 6 
+  # Define some custom colours for these 10 discrete values
+  scale_colour_manual(name = "Positivity Index",
+                      breaks = c("6", "5", "4", "3", "2", "1", "0", "-1", "-2", "-3"),
+                      labels = c("6 : Very Positive", "5", "4", "3", "2", "1", "0 : Neutral", "-1", "-2", "-3 : Negative"),
+                      values = c("#E70255", "#EA0495", "#EC07D5", 
+                                 "#C809EF", "#8D0CF2", "#520EF4", 
+                                 "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
+  scale_fill_manual(name = "Positivity Index",
+                    breaks = c("6", "5", "4", "3", "2", "1", "0", "-1", "-2", "-3"),
+                    labels = c("6 : Very Positive", "5", "4", "3", "2", "1", "0 : Neutral", "-1", "-2", "-3 : Negative"),
+                    values = c("#E70255", "#EA0495", "#EC07D5", 
+                               "#C809EF", "#8D0CF2", "#520EF4", 
+                               "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))
 
-
+plot 
 
