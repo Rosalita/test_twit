@@ -286,21 +286,32 @@ confdaytweets <- testbashtweets[index,]
 #correct row names for confdaytweets dataframe
 row.names(confdaytweets) <- 1:nrow(confdaytweets)
 
-#bind a column on to conference day tweets to hold dates of dividing lines on plot
-lines <- NA
-confdaytweets <- cbind(confdaytweets, lines)
+#bind a column on to conference day tweets to hold key times to divide the plot
+keytimes <- NA
+confdaytweets <- cbind(confdaytweets, keytimes)
 
 #indicate first line is at 08:00 am
-confdaytweets[1,19] = "2016-10-21 08:00:00 GMT" #start time
-confdaytweets[2,19] = "2016-10-21 17:45:00 GMT" #end time
+confdaytweets[1,19] = "2016-10-21 08:00:00 GMT" # start time
+confdaytweets[2,19] = "2016-10-21 09:00:00 GMT" # end of lean coffee
+confdaytweets[3,19] = "2016-10-21 09:10:00 GMT" # James Bach start
+confdaytweets[4,19] = "2016-10-21 10:00:00 GMT" # Iain Bright start
+confdaytweets[5,19] = "2016-10-21 10:30:00 GMT" # Iain Bright end
+confdaytweets[6,19] = "2016-10-21 11:00:00 GMT" # Kim Knup start
+confdaytweets[7,19] = "2016-10-21 11:30:00 GMT" # Stephen Mounsey start
+confdaytweets[8,19] = "2016-10-21 12:00:00 GMT" # Duncan Nesbitt start
+confdaytweets[9,19] = "2016-10-21 12:30:00 GMT" # Duncan Nesbitt end
+confdaytweets[10,19] = "2016-10-21 13:30:00 GMT" # Helena and Joep start
+confdaytweets[11,19] = "2016-10-21 14:00:00 GMT" # Mark Winteringham start
+confdaytweets[12,19] = "2016-10-21 14:30:00 GMT" # Mark Winteringham end
+confdaytweets[13,19] = "2016-10-21 15:00:00 GMT" # Huib Schoots start
+confdaytweets[14,19] = "2016-10-21 15:45:00 GMT" # Gwen Diagram start
+confdaytweets[15,19] = "2016-10-21 16:15:00 GMT" # Gwen Diagram end
+confdaytweets[16,19] = "2016-10-21 16:45:00 GMT" # Beren Van Daele start
+confdaytweets[17,19] = "2016-10-21 17:15:00 GMT" # 99 second talk start
+confdaytweets[18,19] = "2016-10-21 17:45:00 GMT" # end time
 
-str(confdaytweets$lines)
-
-# convert location of lines to dates to POSIXlt
-confdaytweets$lines <- as.POSIXct(confdaytweets$lines, tz="GMT")
-
-str(confdaytweets$lines)
-
+# convert location of lines to dates to POSIXct
+confdaytweets$keytimes <- as.POSIXct(confdaytweets$keytimes, tz="GMT")
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
 plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
@@ -308,7 +319,7 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
  # geom_point(aes(color = factor(sentiment_score))) +
   geom_jitter(aes(color = factor(sentiment_score)))+ 
   ggtitle("Test Bash Manchester Tweets on 21-10-31")+
-  labs(x="Time", y="Sentiment Score")+
+  labs(x="Time", y="Positivity Index")+
   #scale_colour_hue(guide=FALSE)+ #to remove legend 
   scale_x_datetime(date_breaks = "2 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
   scale_y_continuous(breaks = c(-3,-2,-1,0,1,2,3,4,5,6))+
@@ -329,12 +340,49 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
                                "#C809EF", "#8D0CF2", "#520EF4", 
                                "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
   #geom_vline(xintercept = as.numeric(confdaytweets[which(confdaytweets[,19] == 1),5]))  
-  geom_vline(xintercept = as.numeric(confdaytweets[1,19]))+
-  geom_vline(xintercept = as.numeric(confdaytweets[2,19]))+ 
+  geom_vline(xintercept = as.numeric(confdaytweets[1,19]))+ #line representing start
+  geom_vline(xintercept = as.numeric(confdaytweets[18,19]))+ #line representing end
   #geom_rect(aes(xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf), alpha=0.2, fill="red")
-  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf, alpha=0.2, fill="red")
+
+
+  # Registration + lean coffee
+  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf, alpha=0.3, fill="darkred")+
   
-plot
+  # James Bach
+  annotate("rect", xmin=confdaytweets[3,19], xmax=confdaytweets[4,19],ymin=-3, ymax=Inf, alpha=0.3, fill="red")+
+  
+  # Iain Bright
+  annotate("rect", xmin=confdaytweets[4,19], xmax=confdaytweets[5,19],ymin=-3, ymax=Inf, alpha=0.3, fill="darkorange3")+
+  
+  # Kim Knup
+  annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=-3, ymax=Inf, alpha=0.3, fill="gold")+
+  
+  # Stephen Mounsey
+  annotate("rect", xmin=confdaytweets[7,19], xmax=confdaytweets[8,19],ymin=-3, ymax=Inf, alpha=0.3, fill="green")+
+  
+  # Duncan Nesbitt
+  annotate("rect", xmin=confdaytweets[8,19], xmax=confdaytweets[9,19],ymin=-3, ymax=Inf, alpha=0.3, fill="green4")+
+  
+  # Helena and Joep
+  annotate("rect", xmin=confdaytweets[10,19], xmax=confdaytweets[11,19],ymin=-3, ymax=Inf, alpha=0.3, fill="cyan")+
+  
+  # Mark Winteringham
+  annotate("rect", xmin=confdaytweets[11,19], xmax=confdaytweets[12,19],ymin=-3, ymax=Inf, alpha=0.3, fill="deepskyblue2")+
+  
+  # Huib schoots
+  annotate("rect", xmin=confdaytweets[13,19], xmax=confdaytweets[14,19],ymin=-3, ymax=Inf, alpha=0.3, fill="royalblue")+
+  
+  # Gwen Diagram
+  annotate("rect", xmin=confdaytweets[14,19], xmax=confdaytweets[15,19],ymin=-3, ymax=Inf, alpha=0.3, fill="mediumblue")+
+  
+  # Beren Van Daele
+  annotate("rect", xmin=confdaytweets[16,19], xmax=confdaytweets[17,19],ymin=-3, ymax=Inf, alpha=0.3, fill="blueviolet")+
+  
+  # 99 Second Talks
+  annotate("rect", xmin=confdaytweets[17,19], xmax=confdaytweets[18,19],ymin=-3, ymax=Inf, alpha=0.3, fill="mediumorchid1")
+  
+  
+  plot
   
   
 
