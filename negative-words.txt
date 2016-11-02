@@ -182,6 +182,7 @@ arcane
 archaic
 arduous
 arduously
+argh
 argumentative
 arrogance
 arrogant
@@ -251,6 +252,7 @@ bafflement
 baffling
 bait
 balk
+balls
 banal
 banalize
 bane
@@ -574,6 +576,8 @@ choleric
 choppy
 chore
 chronic
+chuck
+chucking
 chunky
 clamor
 clamorous
@@ -994,6 +998,7 @@ despairing
 despairingly
 desperate
 desperately
+desperatly
 desperation
 despicable
 despicably
@@ -1706,6 +1711,7 @@ flimflam
 flimsy
 flirt
 flirty
+flooded
 floored
 flounder
 floundering
@@ -2113,6 +2119,7 @@ ignominy
 ignorance
 ignorant
 ignore
+ignoring
 ill-advised
 ill-conceived
 ill-defined
@@ -3832,6 +3839,9 @@ sinister
 sinisterly
 sink
 sinking
+sins
+sinner
+sinners
 skeletons
 skeptic
 skeptical
@@ -4207,6 +4217,9 @@ taunts
 taut
 tawdry
 taxing
+tear
+tearing
+tears
 tease
 teasingly
 tedious

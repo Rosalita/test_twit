@@ -19,6 +19,7 @@ accomplishments
 accurate
 accurately
 achievable
+achieve
 achievement
 achievements
 achievible
@@ -304,6 +305,7 @@ cohere
 coherence
 coherent
 cohesive
+collaboration
 colorful
 comely
 comfort
@@ -316,6 +318,7 @@ commendable
 commendably
 commitment
 commodious
+community
 compact
 compactly
 compassion
@@ -771,6 +774,7 @@ fresher
 freshest
 friendliness
 friendly
+friend
 frolic
 frugal
 fruitful
@@ -1328,6 +1332,7 @@ posh
 positive
 positively
 positives
+positivity
 powerful
 powerfully
 praise
@@ -1380,7 +1385,9 @@ promise
 promised
 promises
 promising
+promote
 promoter
+promotes
 prompt
 promptly
 proper
@@ -1642,6 +1649,7 @@ smoothly
 snappy
 snazzy
 sociable
+social
 soft
 softer
 solace
@@ -1649,6 +1657,9 @@ solicitous
 solicitously
 solid
 solidarity
+solution
+solve
+solving
 soothe
 soothingly
 sophisticated
@@ -1838,6 +1849,7 @@ tranquility
 transparent
 treasure
 tremendously
+trending
 trendy
 triumph
 triumphal
@@ -2006,7 +2018,9 @@ wowed
 wowing
 wows
 yay
+yipeeeee
 youthful
+wooohoo
 zeal
 zenith
 zest
