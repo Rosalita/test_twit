@@ -18,6 +18,7 @@
 #install.packages("wordcloud", dependencies = TRUE)
 #install.packages("ggplot2")
 #install.packages("colorspace")
+#install.packages("lubridate")
 
 
 library(twitteR)
@@ -28,6 +29,8 @@ library(readr)
 library(tm)
 library(wordcloud)
 library(ggplot2)
+#library(lubridate)
+
 
 # Set working directory to project root
 setwd("C:/Dev/git/test_twit")
@@ -73,7 +76,8 @@ testbashtweets <- readRDS("testbashtweets.Rda")
 #create an index of tweets about testbash events in Philadelphia, Brighton and Netherlands
 othersindex <- grep("Philadelphia|Philly|Philad|Brighton|Netherlands", testbashtweets[,1])
 
-#407 is false positive that mentions testbash manchester and netherlands so remove it from index
+#407 is false positive picked up by grep that mentions both testbash manchester and netherlands
+#so make sure tweet 407 is not the index of tweets to be removed
 othersindex <- othersindex[which(othersindex!=407)] 
 
 #apply index to tweets to discard tweets about non-manchester events
@@ -84,7 +88,6 @@ row.names(testbashtweets) <- 1:nrow(testbashtweets)
 
 # extract tweet text
 tweet_text <- testbashtweets$text
-
 
 
 #library(plyr)
@@ -223,7 +226,7 @@ par(mar=c(0.1,3,0.1,3))
 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(3,0.8), 
+          scale=c(3,0.6), 
           max.words=200,
           min.freq=-1,
           random.order=FALSE, 
@@ -249,7 +252,7 @@ text(x=-0.03, y=0.5, "Positive Words", srt=90)
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(3,0.8), 
+          scale=c(3,0.6), 
           max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
@@ -296,6 +299,11 @@ confdaytweets <- confdaytweets[-previousevening,]
 #correct row names for confdaytweets dataframe
 row.names(confdaytweets) <- 1:nrow(confdaytweets)
 
+# It appears created time stamps on all tweets are 1 hour behind, possibly due to daylight savings time
+# So add an hour on, posixct is time from unix epoch so an hour is + 60*60
+confdaytweets$created <- confdaytweets$created + (60*60)
+
+
 
 #bind a column on to conference day tweets to hold key times to divide the plot
 keytimes <- NA
@@ -334,9 +342,10 @@ confdaytweets[28,19] = "2016-10-21 16:00:00 GMT" # mid Gwen Diagram
 confdaytweets[29,19] = "2016-10-21 17:00:00 GMT" # mid Beren Van Daele
 confdaytweets[30,19] = "2016-10-21 17:30:00 GMT" # mid 99 Second Talks
 
-
 # convert location of lines to dates to POSIXct
 confdaytweets$keytimes <- as.POSIXct(confdaytweets$keytimes, tz="GMT")
+
+str(confdaytweets$keytimes)
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
 plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
@@ -448,6 +457,12 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   
   plot
 
+
+#most positive tweets  
+ index <- which(confdaytweets$sentiment_score == 6)
+  most_positive_tweets <- confdaytweets[index,]
   
-  
+  most_positive_tweets$text
+
+#most negative tweets  
 
