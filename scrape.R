@@ -18,7 +18,7 @@
 #install.packages("wordcloud", dependencies = TRUE)
 #install.packages("ggplot2")
 #install.packages("colorspace")
-#install.packages("lubridate")
+
 
 
 library(twitteR)
@@ -29,7 +29,7 @@ library(readr)
 library(tm)
 library(wordcloud)
 library(ggplot2)
-#library(lubridate)
+
 
 
 # Set working directory to project root
@@ -352,11 +352,11 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   #geom_jitter()+
  # geom_point(aes(color = factor(sentiment_score))) +
   geom_jitter(alpha = 0.4)+ 
-  ggtitle("Test Bash Manchester Tweets on 21-10-31")+
+  ggtitle("Tweets by Time and Positivity for #testbash Manchester")+
   labs(x="Time", y="Positivity Index")+
   #scale_colour_hue(guide=FALSE)+ #to remove legend 
   scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
-  scale_y_continuous(breaks = c(-3,-2,-1,0,1,2,3,4,5,6))+
+  scale_y_continuous(breaks = c(-4,-3,-2,-1,0,1,2,3,4,5,6))+
  
   #scale_fill_identity(name = 'the fill', guide = 'legend',labels = c('m1')) +
   #scale_colour_manual(name = 'the colour', 
@@ -405,7 +405,7 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   # Kim Knup
   annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=-8, ymax=Inf, alpha=0.3, fill="gold")+
   # Kim Knup Label
-  annotate("label", x=confdaytweets[22,19], y=-7, label= "Kim\nKnup", color="black", fill ="gold", alpha=0.3) + 
+  annotate("label", x=confdaytweets[6,19], y=-7, label= "Kim\nKnup", color="black", fill ="gold", alpha=0.3) + 
   
   
   # Stephen Mounsey
@@ -458,11 +458,16 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   plot
 
 
-#most positive tweets  
+#most positive tweet  
  index <- which(confdaytweets$sentiment_score == 6)
-  most_positive_tweets <- confdaytweets[index,]
-  
-  most_positive_tweets$text
+  positive_tweets <- confdaytweets[index,]
+ 
+  # Manually remove the RTs as they are duplication of the positive tweet
+  Most_positive  <-   positive_tweets$text[4]
 
-#most negative tweets  
+  #most negative tweets    
+ index <- which(confdaytweets$sentiment_score == -4)
+ neg_tweets <- confdaytweets[index,]
+ Most_negative <- c(neg_tweets$text[1])
+
 
