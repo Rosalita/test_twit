@@ -226,7 +226,7 @@ par(mar=c(0.1,3,0.1,3))
 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(3,0.6), 
+          scale=c(2.5,0.5), 
           max.words=200,
           min.freq=-1,
           random.order=FALSE, 
@@ -252,7 +252,7 @@ text(x=-0.03, y=0.5, "Positive Words", srt=90)
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(3,0.6), 
+          scale=c(2.5,0.5), 
           max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
@@ -464,10 +464,15 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
  
   # Manually remove the RTs as they are duplication of the positive tweet
   Most_positive  <-   positive_tweets$text[4]
+  
+  # link to actual tweet 
+  # https://twitter.com/gwendiagram/status/789451319031586816
 
   #most negative tweets    
  index <- which(confdaytweets$sentiment_score == -4)
  neg_tweets <- confdaytweets[index,]
  Most_negative <- c(neg_tweets$text[1])
 
+  # link to actual tweet
+  # https://twitter.com/ianbell2i/status/789408139711909889
 
