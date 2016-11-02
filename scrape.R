@@ -289,6 +289,14 @@ confdaytweets <- testbashtweets[index,]
 #correct row names for confdaytweets dataframe
 row.names(confdaytweets) <- 1:nrow(confdaytweets)
 
+#clean up a few rogue tweets from the night before conference day
+previousevening <- c(1780, 1781, 1782, 1783, 1784, 1785)
+confdaytweets <- confdaytweets[-previousevening,]
+
+#correct row names for confdaytweets dataframe
+row.names(confdaytweets) <- 1:nrow(confdaytweets)
+
+
 #bind a column on to conference day tweets to hold key times to divide the plot
 keytimes <- NA
 confdaytweets <- cbind(confdaytweets, keytimes)
@@ -324,7 +332,7 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   ggtitle("Test Bash Manchester Tweets on 21-10-31")+
   labs(x="Time", y="Positivity Index")+
   #scale_colour_hue(guide=FALSE)+ #to remove legend 
-  scale_x_datetime(date_breaks = "2 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
+  scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
   scale_y_continuous(breaks = c(-3,-2,-1,0,1,2,3,4,5,6))+
  
   #scale_fill_identity(name = 'the fill', guide = 'legend',labels = c('m1')) +
