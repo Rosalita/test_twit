@@ -20,7 +20,6 @@
 #install.packages("colorspace")
 
 
-
 library(twitteR)
 library(ROAuth)
 library(httr)
@@ -105,6 +104,9 @@ tweet_text <- iconv(tweet_text, to='UTF-8') # convert all tweets to UTF8 to make
 # also corrections have been made based on context, e.g. the word 'buzzing' has been 
 # reclassified from negative to positive.
 # UK spellings like 'honour' as oppose to US 'honor' have been included
+# Also removed from word lists all positive and negative words present in titles of each speakers talk  
+# did this to try mitigate bias as words in talk titles will be mentioned more frequently
+# words removed: critical, social, positivity, frown, skill, harmed, problems, deadly, sins, sin, awesomeness
 
 # Import the good words and get them into vectors
 good <- read_file("positive-words.txt", locale = default_locale())
@@ -230,7 +232,7 @@ par(mar=c(0.1,3,0.1,3))
 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(2.5,0.5), 
+          scale=c(2,0.5), 
           max.words=200,
           min.freq=-1,
           random.order=FALSE, 
@@ -256,7 +258,7 @@ text(x=-0.03, y=0.5, "Positive Words", srt=90)
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(2.5,0.5), 
+          scale=c(2,0.5), 
           max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
@@ -539,6 +541,8 @@ segment <- c("Registration & Lean Coffee", "Welcome", "James Bach", "Iain Bright
              "Kim Knup", "Stephen Mounsey", "Duncan Nesbitt", "Lunch", "Helena & Joep", "Mark Winteringham",
              "Break 2", "Huib Schoots", "Gwen Diagram", "Break 3", "Beren Van Daele", "99 Second Talks")
 
+duration_mins <- c(60,10,50,30,30,30,30,30,60,30,30,30,45,30,30,30,30)
+
 totaltweets <- c(nrow(regcoffee), nrow(welcome), nrow(jamesbach), nrow(iainbright), nrow(break1), nrow(kimknup),
                  nrow(stephenmounsey), nrow(duncannesbitt), nrow(lunchtime), nrow(helenajoep), nrow(markwinteringham),
                  nrow(break2), nrow(huibschoots), nrow(gwendiagram), nrow(break3), nrow(berenvandaele), nrow(nnstalks))
@@ -551,6 +555,35 @@ totalsentiment <- c(sum(regcoffee$sentiment_score), sum(welcome$sentiment_score)
                     sum(berenvandaele$sentiment_score), sum(nnstalks$sentiment_score)
                    )
 
-tweetsbysegment <- data.frame(segment, totaltweets, totalsentiment)
+tweetsbysegment <- data.frame(segment, duration_mins,totaltweets, totalsentiment)
+
+# plot tweet quantity by segment
+
+# levels of segments column are not in sequential order
+levels(tweetsbysegment$segment)
+
+# so reorder them
+tweetsbysegment$segment <- factor(tweetsbysegment$segment, levels = c("99 Second Talks", "Beren Van Daele", 
+                                                                      "Break 3","Gwen Diagram","Huib Schoots",
+                                                                      "Break 2", "Mark Winteringham",
+                                                                      "Helena & Joep","Lunch","Duncan Nesbitt",
+                                                                      "Stephen Mounsey","Kim Knup","Break 1",
+                                                                      "Iain Bright","James Bach","Welcome",
+                                                                      "Registration & Lean Coffee"))
+
+# vector of unreversed order
+#c("Registration & Lean Coffee", "Welcome", "James Bach", "Iain Bright",
+#  "Break 1", "Kim Knup","Stephen Mounsey","Duncan Nesbitt", "Lunch",
+#  "Helena & Joep", "Mark Winteringham", "Break 2", "Huib Schoots",
+#  "Gwen Diagram", "Break 3", "Beren Van Daele", "99 Second Talks")
 
 
+plot2 <- ggplot(tweetsbysegment, aes(x=segment, y=totaltweets, fill=totalsentiment))+
+  geom_bar(stat="identity", colour= "black")+
+  coord_flip()+
+  labs(x="Segment", y="Tweet Quantity")+
+  ggtitle("Segment by Tweet Quantity and Sentiment")
+
+
+plot2 + scale_fill_gradient(low="magenta", high="yellow")+ labs(fill='Positivity')
+  

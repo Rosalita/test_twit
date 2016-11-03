@@ -765,7 +765,6 @@ cripples
 crippling
 crisis
 critic
-critical
 criticism
 criticisms
 criticize
@@ -842,7 +841,6 @@ dazed
 dead
 deadbeat
 deadlock
-deadly
 deadweight
 deaf
 dearth
@@ -1785,7 +1783,6 @@ frightful
 frightfully
 frigid
 frost
-frown
 froze
 frozen
 fruitless
@@ -1965,7 +1962,6 @@ hardliners
 hardship
 hardships
 harm
-harmed
 harmful
 harms
 harpy
@@ -3384,7 +3380,6 @@ prison
 prisoner
 problem
 problematic
-problems
 procrastinate
 procrastinates
 procrastination
@@ -3832,14 +3827,12 @@ sillily
 silly
 simplistic
 simplistically
-sin
 sinful
 sinfully
 sinister
 sinisterly
 sink
 sinking
-sins
 sinner
 sinners
 skeletons

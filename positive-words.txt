@@ -165,7 +165,6 @@ awe
 awed
 awesome
 awesomely
-awesomeness
 awestruck
 awsome
 backbone
@@ -1332,7 +1331,6 @@ posh
 positive
 positively
 positives
-positivity
 powerful
 powerfully
 praise
@@ -1625,7 +1623,6 @@ simplifying
 sincere
 sincerely
 sincerity
-skill
 skilled
 skillful
 skillfully
@@ -1649,7 +1646,6 @@ smoothly
 snappy
 snazzy
 sociable
-social
 soft
 softer
 solace
