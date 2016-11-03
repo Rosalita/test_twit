@@ -99,8 +99,12 @@ tweet_text <- iconv(tweet_text, to='UTF-8') # convert all tweets to UTF8 to make
 # As a starting point, use the Hu and Liu Opinion Lexicon 
 # from http://www.cs.uic.edu/~liub/FBS/opinion-lexicon-English.rar
 # This is two lists, one of positive words and one of negative words
-
-# Note: Added some new words to the positive list like 'honour', as it only had US spelling 'honor'
+# This lexicon has been adjusted to be sensitive to the domain it is analysising
+# Words specific to the domain of software development have been added e.g.'wagile'
+# a negative term used to describe agile development which has reverted back to waterfall
+# also corrections have been made based on context, e.g. the word 'buzzing' has been 
+# reclassified from negative to positive.
+# UK spellings like 'honour' as oppose to US 'honor' have been included
 
 # Import the good words and get them into vectors
 good <- read_file("positive-words.txt", locale = default_locale())
@@ -349,42 +353,11 @@ str(confdaytweets$keytimes)
 
 # plot tweets on 21-10-16, the day of the conference by time and sentiment
 plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
-  #geom_jitter()+
- # geom_point(aes(color = factor(sentiment_score))) +
   geom_jitter(alpha = 0.4)+ 
   ggtitle("Tweets by Time and Positivity for #testbash Manchester")+
   labs(x="Time", y="Positivity Index")+
-  #scale_colour_hue(guide=FALSE)+ #to remove legend 
   scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+ #use scale_*_datetime for POSIXct variables
   scale_y_continuous(breaks = c(-4,-3,-2,-1,0,1,2,3,4,5,6))+
- 
-  #scale_fill_identity(name = 'the fill', guide = 'legend',labels = c('m1')) +
-  #scale_colour_manual(name = 'the colour', 
-  #                    values =c('black'='black','red'='red'), labels = c('c2','c1'))+
-  
- 
-  
-  # Colour the scatter plot by sentiment
-  # Sentiment is a discrete scale from -3 to 6 
-  # Define some custom colours for these 10 discrete values
-  #scale_colour_manual(name = "Positivity Index",
-  #                    breaks = c("6", "5", "4", "3", "2", "1", "0", "-1", "-2", "-3"),
-  #                    labels = c("6 : Very Positive", "5", "4", "3", "2", "1", "0 : Neutral", "-1", "-2", "-3 : Negative"),
-  #                    values = c("#E70255", "#EA0495", "#EC07D5", 
-  #                               "#C809EF", "#8D0CF2", "#520EF4", 
-  #                               "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
-  #scale_fill_manual(name = "Positivity Index",
-  #                  breaks = c("6", "5", "4", "3", "2", "1", "0", "-1", "-2", "-3"),
-  #                  labels = c("6 : Very Positive", "5", "4", "3", "2", "1", "0 : Neutral", "-1", "-2", "-3 : Negative"),
-  #                  values = c("#E70255", "#EA0495", "#EC07D5", 
-  #                             "#C809EF", "#8D0CF2", "#520EF4", 
-  #                             "#1711F7", "#144BF9", "#178BFC", "#19CCFF"))+
-  #geom_vline(xintercept = as.numeric(confdaytweets[which(confdaytweets[,19] == 1),5]))  
-  #geom_vline(xintercept = as.numeric(confdaytweets[1,19]))+ #line representing start
-  #geom_vline(xintercept = as.numeric(confdaytweets[18,19]))+ #line representing end
-  #geom_rect(aes(xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-3, ymax=Inf), alpha=0.2, fill="green")+
-
-
   
   # Lean Coffee Rect
   annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-5, ymax=7, alpha=0.3, fill="#4285F4")+
@@ -396,7 +369,6 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   # James Bach Label
   annotate("label", x=confdaytweets[20,19], y=-6, label= "James\nBach", color="black", fill ="#EA4335", alpha=0.3) + 
   
-  
   # Iain Bright
   annotate("rect", xmin=confdaytweets[4,19], xmax=confdaytweets[5,19],ymin=-5, ymax=7, alpha=0.3, fill="#FBBC05")+
   # Iain Bright Label
@@ -406,7 +378,6 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=-5, ymax=7, alpha=0.3, fill="#4285F4")+
   # Kim Knup Label
   annotate("label", x=confdaytweets[22,19], y=-6, label= "Kim\nKnup", color="black", fill ="#4285F4", alpha=0.3) + 
-  
   
   # Stephen Mounsey
   annotate("rect", xmin=confdaytweets[7,19], xmax=confdaytweets[8,19],ymin=-5, ymax=7, alpha=0.3, fill="#EA4335")+
@@ -423,38 +394,32 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   # Helena and Joep Label
   annotate("label", x=confdaytweets[25,19], y=8, label= "Helena &\nJoep", color="black", fill ="#4285F4", alpha=0.3) + 
   
-  
   # Mark Winteringham
   annotate("rect", xmin=confdaytweets[11,19], xmax=confdaytweets[12,19],ymin=-5, ymax=7, alpha=0.3, fill="#EA4335")+
   # Mark Winteringham Label
   annotate("label", x=confdaytweets[26,19], y=-6, label= "Mark\nWinteringham", color="black", fill ="#EA4335", alpha=0.3) + 
-  
   
   # Huib Schoots
   annotate("rect", xmin=confdaytweets[13,19], xmax=confdaytweets[14,19],ymin=-5, ymax=7, alpha=0.3, fill="#FBBC05")+
   # Huib Schoots Label
   annotate("label", x=confdaytweets[27,19], y=8, label= "Huib\nSchoots", color="black", fill ="#FBBC05", alpha=0.3) + 
   
-  
   # Gwen Diagram
   annotate("rect", xmin=confdaytweets[14,19], xmax=confdaytweets[15,19],ymin=-5, ymax=7, alpha=0.3, fill="#4285F4")+
   # Gwen Diagram Label
   annotate("label", x=confdaytweets[28,19], y=-6, label= "Gwen\nDiagram", color="black", fill ="#4285F4", alpha=0.3) + 
-  
   
   # Beren Van Daele
   annotate("rect", xmin=confdaytweets[16,19], xmax=confdaytweets[17,19],ymin=-5, ymax=7, alpha=0.3, fill="#EA4335")+
   # Beren Van Daele Label
   annotate("label", x=confdaytweets[29,19], y=8, label= "Beren\nVan Daele", color="black", fill ="#EA4335", alpha=0.3) + 
   
-  
   # 99 Second Talks
   annotate("rect", xmin=confdaytweets[17,19], xmax=confdaytweets[18,19],ymin=-5, ymax=7, alpha=0.3, fill="#FBBC05")+
   # 99 second Talks Label
   annotate("label", x=confdaytweets[30,19], y=-6, label= "99 Second\nTalks", color="black", fill ="#FBBC05", alpha=0.3) 
   
-  
-  
+
   plot
 
 
@@ -475,4 +440,117 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
 
   # link to actual tweet
   # https://twitter.com/ianbell2i/status/789408139711909889
+
+
+ # Top 5 most Favourited tweets
+ index <- which(confdaytweets$favoriteCount > 30)
+ top5 <- confdaytweets[index,]
+ 
+ # #1 - 50 favourites
+ # https://twitter.com/FriendlyTester/status/789567426904088577
+ 
+ # #2 - 37 favourites
+ # https://twitter.com/FriendlyTester/status/789411505347239936
+ 
+ # #3 - 34 favourites
+ # https://twitter.com/e_tester/status/789485234911846400
+ 
+ # #4 - 31 favourites
+ # https://twitter.com/FriendlyTester/status/789517320347615232
+ 
+ # #5 - 31 favourites
+ # https://twitter.com/Tweet_Cassandra/status/789605366468313088
+ 
+
+ # start dividing tweets up by event segment so can plot quantity by time
+ 
+
+# Tweets made during registration and lean coffee
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[1,19]:confdaytweets[2,19] 
+regcoffee <- confdaytweets[index,]
+
+#tweets made during welcome
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[2,19]:confdaytweets[3,19] 
+welcome <- confdaytweets[index,]
+
+# Tweets made during James Bach talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[3,19]:confdaytweets[4,19] 
+jamesbach <- confdaytweets[index,]    
+
+# Tweets made during Iain Bright talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[4,19]:confdaytweets[5,19] 
+iainbright <- confdaytweets[index,]  
+
+# Tweets made during break 1
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[5,19]:confdaytweets[6,19] 
+break1 <- confdaytweets[index,]  
+
+# Tweets made during Kim Knup talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[6,19]:confdaytweets[7,19] 
+kimknup <- confdaytweets[index,]  
+
+# Tweets made during Stephen Mounsey talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[7,19]:confdaytweets[8,19] 
+stephenmounsey <- confdaytweets[index,]  
+ 
+# Tweets made during Duncan Nesbitt talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[8,19]:confdaytweets[9,19] 
+duncannesbitt <- confdaytweets[index,] 
+
+# Tweets made during lunch time
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[9,19]:confdaytweets[10,19] 
+lunchtime <- confdaytweets[index,] 
+
+# Tweets made during Helena & Joep talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[10,19]:confdaytweets[11,19] 
+helenajoep <- confdaytweets[index,] 
+
+# Tweets made during Mark Winteringham talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[11,19]:confdaytweets[12,19] 
+markwinteringham <- confdaytweets[index,] 
+
+# Tweets made during break 2
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[12,19]:confdaytweets[13,19] 
+break2 <- confdaytweets[index,] 
+
+# Tweets made during Huib Schoots talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[13,19]:confdaytweets[14,19] 
+huibschoots <- confdaytweets[index,] 
+
+# Tweets made during Gwen Diagram talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[14,19]:confdaytweets[15,19] 
+gwendiagram <- confdaytweets[index,] 
+
+# Tweets made during break 3
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[15,19]:confdaytweets[16,19] 
+break3 <- confdaytweets[index,] 
+
+# Tweets made during Beren Van Daele talk
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[16,19]:confdaytweets[17,19] 
+berenvandaele <- confdaytweets[index,] 
+
+# Tweets made during 99 second talks
+index <- as.numeric(confdaytweets$created) %in% confdaytweets[17,19]:confdaytweets[18,19] 
+nnstalks <- confdaytweets[index,] 
+
+# bind tweets into a dataframe by segment
+
+segment <- c("Registration & Lean Coffee", "Welcome", "James Bach", "Iain Bright", "Break 1",
+             "Kim Knup", "Stephen Mounsey", "Duncan Nesbitt", "Lunch", "Helena & Joep", "Mark Winteringham",
+             "Break 2", "Huib Schoots", "Gwen Diagram", "Break 3", "Beren Van Daele", "99 Second Talks")
+
+totaltweets <- c(nrow(regcoffee), nrow(welcome), nrow(jamesbach), nrow(iainbright), nrow(break1), nrow(kimknup),
+                 nrow(stephenmounsey), nrow(duncannesbitt), nrow(lunchtime), nrow(helenajoep), nrow(markwinteringham),
+                 nrow(break2), nrow(huibschoots), nrow(gwendiagram), nrow(break3), nrow(berenvandaele), nrow(nnstalks))
+
+totalsentiment <- c(sum(regcoffee$sentiment_score), sum(welcome$sentiment_score), sum(jamesbach$sentiment_score),
+                    sum(iainbright$sentiment_score), sum(break1$sentiment_score), sum(kimknup$sentiment_score),
+                    sum(stephenmounsey$sentiment_score), sum(duncannesbitt$sentiment_score), sum(lunchtime$sentiment_score),
+                    sum(helenajoep$sentiment_score), sum(markwinteringham$sentiment_score), sum(break2$sentiment_score),
+                    sum(huibschoots$sentiment_score), sum(gwendiagram$sentiment_score), sum(break3$sentiment_score),
+                    sum(berenvandaele$sentiment_score), sum(nnstalks$sentiment_score)
+                   )
+
+tweetsbysegment <- data.frame(segment, totaltweets, totalsentiment)
+
 
