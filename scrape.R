@@ -387,71 +387,71 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
 
   
   # Lean Coffee Rect
-  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-8, ymax=Inf, alpha=0.3, fill="darkred")+
+  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=-5, ymax=7, alpha=0.3, fill="darkred")+
   # Lean Coffee Label
-  annotate("label", x=confdaytweets[19,19], y=-5, label= "Lean\nCoffee", color="black", fill ="darkred", alpha=0.3) + 
+  annotate("label", x=confdaytweets[19,19], y=8, label= "Registration\n& Lean Coffee", color="black", fill ="darkred", alpha=0.3) + 
   
   # James Bach Rect
-  annotate("rect", xmin=confdaytweets[3,19], xmax=confdaytweets[4,19],ymin=-8, ymax=Inf, alpha=0.3, fill="red")+
+  annotate("rect", xmin=confdaytweets[3,19], xmax=confdaytweets[4,19],ymin=-5, ymax=7, alpha=0.3, fill="red")+
   # James Bach Label
-  annotate("label", x=confdaytweets[20,19], y=-7, label= "James\nBach", color="black", fill ="red", alpha=0.3) + 
+  annotate("label", x=confdaytweets[20,19], y=-6, label= "James\nBach", color="black", fill ="red", alpha=0.3) + 
   
   
   # Iain Bright
-  annotate("rect", xmin=confdaytweets[4,19], xmax=confdaytweets[5,19],ymin=-8, ymax=Inf, alpha=0.3, fill="darkorange3")+
+  annotate("rect", xmin=confdaytweets[4,19], xmax=confdaytweets[5,19],ymin=-5, ymax=7, alpha=0.3, fill="darkorange3")+
   # Iain Bright Label
-  annotate("label", x=confdaytweets[21,19], y=-5, label= "Iain\nBright", color="black", fill ="darkorange3", alpha=0.3) + 
+  annotate("label", x=confdaytweets[21,19], y=8, label= "Iain\nBright", color="black", fill ="darkorange3", alpha=0.3) + 
   
   # Kim Knup
-  annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=-8, ymax=Inf, alpha=0.3, fill="gold")+
+  annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=-5, ymax=7, alpha=0.3, fill="gold")+
   # Kim Knup Label
-  annotate("label", x=confdaytweets[6,19], y=-7, label= "Kim\nKnup", color="black", fill ="gold", alpha=0.3) + 
+  annotate("label", x=confdaytweets[22,19], y=-6, label= "Kim\nKnup", color="black", fill ="gold", alpha=0.3) + 
   
   
   # Stephen Mounsey
-  annotate("rect", xmin=confdaytweets[7,19], xmax=confdaytweets[8,19],ymin=-8, ymax=Inf, alpha=0.3, fill="green")+
+  annotate("rect", xmin=confdaytweets[7,19], xmax=confdaytweets[8,19],ymin=-5, ymax=7, alpha=0.3, fill="green")+
   # Stephen Mounsey Label
-  annotate("label", x=confdaytweets[23,19], y=-5, label= "Stephen\nMounsey", color="black", fill ="green", alpha=0.3) + 
+  annotate("label", x=confdaytweets[23,19], y=8, label= "Stephen\nMounsey", color="black", fill ="green", alpha=0.3) + 
   
   # Duncan Nesbitt
-  annotate("rect", xmin=confdaytweets[8,19], xmax=confdaytweets[9,19],ymin=-8, ymax=Inf, alpha=0.3, fill="green4")+
+  annotate("rect", xmin=confdaytweets[8,19], xmax=confdaytweets[9,19],ymin=-5, ymax=7, alpha=0.3, fill="green4")+
   # Duncan Nesbitt Label
-  annotate("label", x=confdaytweets[24,19], y=-7, label= "Duncan\nNesbitt", color="black", fill ="green4", alpha=0.3) + 
+  annotate("label", x=confdaytweets[24,19], y=-6, label= "Duncan\nNesbitt", color="black", fill ="green4", alpha=0.3) + 
   
   # Helena and Joep
-  annotate("rect", xmin=confdaytweets[10,19], xmax=confdaytweets[11,19],ymin=-8, ymax=Inf, alpha=0.3, fill="cyan")+
+  annotate("rect", xmin=confdaytweets[10,19], xmax=confdaytweets[11,19],ymin=-5, ymax=7, alpha=0.3, fill="cyan")+
   # Helena and Joep Label
-  annotate("label", x=confdaytweets[25,19], y=-5, label= "Helena &\nJoep", color="black", fill ="cyan", alpha=0.3) + 
+  annotate("label", x=confdaytweets[25,19], y=8, label= "Helena &\nJoep", color="black", fill ="cyan", alpha=0.3) + 
   
   
   # Mark Winteringham
-  annotate("rect", xmin=confdaytweets[11,19], xmax=confdaytweets[12,19],ymin=-8, ymax=Inf, alpha=0.3, fill="deepskyblue2")+
+  annotate("rect", xmin=confdaytweets[11,19], xmax=confdaytweets[12,19],ymin=-5, ymax=7, alpha=0.3, fill="deepskyblue2")+
   # Mark Winteringham Label
-  annotate("label", x=confdaytweets[26,19], y=-7, label= "Mark\nWinteringham", color="black", fill ="deepskyblue2", alpha=0.3) + 
+  annotate("label", x=confdaytweets[26,19], y=-6, label= "Mark\nWinteringham", color="black", fill ="deepskyblue2", alpha=0.3) + 
   
   
   # Huib Schoots
-  annotate("rect", xmin=confdaytweets[13,19], xmax=confdaytweets[14,19],ymin=-8, ymax=Inf, alpha=0.3, fill="royalblue")+
+  annotate("rect", xmin=confdaytweets[13,19], xmax=confdaytweets[14,19],ymin=-5, ymax=7, alpha=0.3, fill="royalblue")+
   # Huib Schoots Label
-  annotate("label", x=confdaytweets[27,19], y=-5, label= "Huib\nSchoots", color="black", fill ="royalblue", alpha=0.3) + 
+  annotate("label", x=confdaytweets[27,19], y=8, label= "Huib\nSchoots", color="black", fill ="royalblue", alpha=0.3) + 
   
   
   # Gwen Diagram
-  annotate("rect", xmin=confdaytweets[14,19], xmax=confdaytweets[15,19],ymin=-8, ymax=Inf, alpha=0.3, fill="mediumblue")+
+  annotate("rect", xmin=confdaytweets[14,19], xmax=confdaytweets[15,19],ymin=-5, ymax=7, alpha=0.3, fill="mediumblue")+
   # Gwen Diagram Label
-  annotate("label", x=confdaytweets[28,19], y=-7, label= "Gwen\nDiagram", color="black", fill ="mediumblue", alpha=0.3) + 
+  annotate("label", x=confdaytweets[28,19], y=-6, label= "Gwen\nDiagram", color="black", fill ="mediumblue", alpha=0.3) + 
   
   
   # Beren Van Daele
-  annotate("rect", xmin=confdaytweets[16,19], xmax=confdaytweets[17,19],ymin=-8, ymax=Inf, alpha=0.3, fill="blueviolet")+
+  annotate("rect", xmin=confdaytweets[16,19], xmax=confdaytweets[17,19],ymin=-5, ymax=7, alpha=0.3, fill="blueviolet")+
   # Beren Van Daele Label
-  annotate("label", x=confdaytweets[29,19], y=-5, label= "Beren\nVan Daele", color="black", fill ="blueviolet", alpha=0.3) + 
+  annotate("label", x=confdaytweets[29,19], y=8, label= "Beren\nVan Daele", color="black", fill ="blueviolet", alpha=0.3) + 
   
   
   # 99 Second Talks
-  annotate("rect", xmin=confdaytweets[17,19], xmax=confdaytweets[18,19],ymin=-8, ymax=Inf, alpha=0.3, fill="mediumorchid1")+
+  annotate("rect", xmin=confdaytweets[17,19], xmax=confdaytweets[18,19],ymin=-5, ymax=7, alpha=0.3, fill="mediumorchid1")+
   # 99 second Talks Label
-  annotate("label", x=confdaytweets[30,19], y=-7, label= "99 Second\nTalks", color="black", fill ="mediumorchid", alpha=0.3) 
+  annotate("label", x=confdaytweets[30,19], y=-6, label= "99 Second\nTalks", color="black", fill ="mediumorchid", alpha=0.3) 
   
   
   
