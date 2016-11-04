@@ -28,7 +28,7 @@ library(readr)
 library(tm)
 library(wordcloud)
 library(ggplot2)
-
+library(scales)
 
 
 # Set working directory to project root
@@ -232,7 +232,7 @@ par(mar=c(0.1,3,0.1,3))
 
 # Positive Wordcloud
 wordcloud(pcorp, 
-          scale=c(2,0.5), 
+          scale=c(2,0.6), 
           max.words=200,
           min.freq=-1,
           random.order=FALSE, 
@@ -258,7 +258,7 @@ text(x=-0.03, y=0.5, "Positive Words", srt=90)
 
 # Negative Wordcloud
 wordcloud(ncorp, 
-          scale=c(2,0.5), 
+          scale=c(2,0.6), 
           max.words=200, 
           min.freq=-1,
           random.order=FALSE, 
@@ -587,3 +587,79 @@ plot2 <- ggplot(tweetsbysegment, aes(x=segment, y=totaltweets, fill=totalsentime
 
 plot2 + scale_fill_gradient(low="magenta", high="yellow")+ labs(fill='Positivity')
   
+
+
+# Tweet Frequency polygon
+
+plot3 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_score)) +
+                ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
+                scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
+                scale_y_continuous(breaks = seq(0,120, by=10))+
+                labs(x="Time", y="Tweet Count")+
+                geom_freqpoly(binwidth = 1000)+
+  
+  # Lean Coffee Rect
+  annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
+  # Lean Coffee Label
+  annotate("label", x=confdaytweets[19,19], y=110, label= "Registration\n& Lean Coffee", color="black", fill ="#4285F4", alpha=0.3)+
+  
+  # James Bach Rect
+  annotate("rect", xmin=confdaytweets[3,19], xmax=confdaytweets[4,19],ymin=0, ymax=105, alpha=0.3, fill="#EA4335")+
+  # James Bach Label
+  annotate("label", x=confdaytweets[20,19], y=-5, label= "James\nBach", color="black", fill ="#EA4335", alpha=0.3)+
+  
+  # Iain Bright
+  annotate("rect", xmin=confdaytweets[4,19], xmax=confdaytweets[5,19],ymin=0, ymax=105, alpha=0.3, fill="#FBBC05")+
+  # Iain Bright Label
+  annotate("label", x=confdaytweets[21,19], y=110, label= "Iain\nBright", color="black", fill ="#FBBC05", alpha=0.3)+
+  
+  # Kim Knup
+  annotate("rect", xmin=confdaytweets[6,19], xmax=confdaytweets[7,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
+  # Kim Knup Label
+  annotate("label", x=confdaytweets[22,19], y=-5, label= "Kim\nKnup", color="black", fill ="#4285F4", alpha=0.3)+
+  
+  # Stephen Mounsey
+  annotate("rect", xmin=confdaytweets[7,19], xmax=confdaytweets[8,19],ymin=0, ymax=105, alpha=0.3, fill="#EA4335")+
+  # Stephen Mounsey Label
+  annotate("label", x=confdaytweets[23,19], y=110, label= "Stephen\nMounsey", color="black", fill ="#EA4335", alpha=0.3)+
+  
+  # Duncan Nesbitt
+  annotate("rect", xmin=confdaytweets[8,19], xmax=confdaytweets[9,19],ymin=0, ymax=105, alpha=0.3, fill="#FBBC05")+
+  # Duncan Nesbitt Label
+  annotate("label", x=confdaytweets[24,19], y=-5, label= "Duncan\nNesbitt", color="black", fill ="#FBBC05", alpha=0.3)+
+  
+  # Helena and Joep
+  annotate("rect", xmin=confdaytweets[10,19], xmax=confdaytweets[11,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
+  # Helena and Joep Label
+  annotate("label", x=confdaytweets[25,19], y=110, label= "Helena &\nJoep", color="black", fill ="#4285F4", alpha=0.3)+  
+  
+  # Mark Winteringham
+  annotate("rect", xmin=confdaytweets[11,19], xmax=confdaytweets[12,19],ymin=0, ymax=105, alpha=0.3, fill="#EA4335")+
+  # Mark Winteringham Label
+  annotate("label", x=confdaytweets[26,19], y=-5, label= "Mark\nWinteringham", color="black", fill ="#EA4335", alpha=0.3)+  
+  
+  # Huib Schoots
+  annotate("rect", xmin=confdaytweets[13,19], xmax=confdaytweets[14,19],ymin=0, ymax=105, alpha=0.3, fill="#FBBC05")+
+  # Huib Schoots Label
+  annotate("label", x=confdaytweets[27,19], y=110, label= "Huib\nSchoots", color="black", fill ="#FBBC05", alpha=0.3)+ 
+
+  # Gwen Diagram
+  annotate("rect", xmin=confdaytweets[14,19], xmax=confdaytweets[15,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
+  # Gwen Diagram Label
+  annotate("label", x=confdaytweets[28,19], y=-5, label= "Gwen\nDiagram", color="black", fill ="#4285F4", alpha=0.3)+ 
+
+  # Beren Van Daele
+  annotate("rect", xmin=confdaytweets[16,19], xmax=confdaytweets[17,19],ymin=0, ymax=105, alpha=0.3, fill="#EA4335")+
+  # Beren Van Daele Label
+  annotate("label", x=confdaytweets[29,19], y=110, label= "Beren\nVan Daele", color="black", fill ="#EA4335", alpha=0.3)+ 
+
+  # 99 Second Talks
+  annotate("rect", xmin=confdaytweets[17,19], xmax=confdaytweets[18,19],ymin=0, ymax=105, alpha=0.3, fill="#FBBC05")+
+  # 99 second Talks Label
+  annotate("label", x=confdaytweets[30,19], y=-5, label= "99 Second\nTalks", color="black", fill ="#FBBC05", alpha=0.3) 
+
+
+plot3 
+
+# + theme(axis.text.x = element_text(angle=30))
+
