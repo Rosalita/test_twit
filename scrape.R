@@ -32,8 +32,8 @@ library(scales)
 
 
 # Set working directory to project root
-setwd("C:/Dev/git/test_twit")
-#setwd("C:/git/test_twit")
+# setwd("C:/Dev/git/test_twit")
+setwd("C:/git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -662,4 +662,50 @@ plot3 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_sc
 plot3 
 
 # + theme(axis.text.x = element_text(angle=30))
+
+# create a data frame of tweets created while a speaker was talking
+# and insert name of speaker talking at the time in a new column
+
+# add names into speaker column
+speaker <- "James Bach"
+jamesbach <- cbind(jamesbach, speaker)
+
+speaker <- "Iain Bright"
+iainbright <- cbind(iainbright, speaker)
+
+speaker <- "Kim Knup"
+kimknup <- cbind(kimknup, speaker)
+
+speaker <- "Stephen Mounsey"
+stephenmounsey <- cbind(stephenmounsey, speaker)
+
+speaker <- "Duncan Nesbitt"
+duncannesbitt <- cbind(duncannesbitt, speaker)
+
+speaker <- "Helena & Joep"
+helenajoep <- cbind(helenajoep, speaker)
+
+speaker <- "Mark Winteringham"
+markwinteringham <- cbind(markwinteringham, speaker)
+
+speaker <- "Huib Scoots"
+huibschoots <- cbind(huibschoots, speaker)
+
+speaker <- "Gwen Diagram"
+gwendiagram <- cbind(gwendiagram, speaker)
+
+speaker <- "Beren Van Daele"
+berenvandaele <- cbind(berenvandaele, speaker)
+
+speaker <- "99 second talks"
+nnstalks <- cbind(nnstalks, speaker)
+
+#bind all the speaker dataframes together into a single dataframe
+
+speakerdf <- rbind(jamesbach, iainbright, kimknup, stephenmounsey,
+                   duncannesbitt, helenajoep, markwinteringham,
+                   huibschoots, gwendiagram, berenvandaele, nnstalks)
+
+plot4 <- ggplot(speakerdf, aes(factor(speaker), sentiment_score))
+plot4 + geom_boxplot() + coord_flip()
 
