@@ -197,6 +197,13 @@ sentiment_score <- feelings$score
 #bind the sentiment scores onto the tweet dataframe
 testbashtweets <- cbind(testbashtweets,sentiment_score)
 
+# add * to swear words so word clouds are less offensive
+findex <- which(negativity =="fuck")
+negativity[findex] <- "f*ck"
+findex <- which(negativity =="fucking")
+negativity[findex] <- "f*cking"
+findex <- which(negativity =="shit")
+negativity[findex] <- "sh*t"
 
 #tally up all the positive and negative words in a table.
 ptable <- table(positivity)
@@ -429,7 +436,7 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   plot
   
 plot + geom_smooth(method ="loess", span=0.1, colour="yellow" )
-?geom_smooth
+
 
 #most positive tweet  
  index <- which(confdaytweets$sentiment_score == 6)
@@ -584,20 +591,10 @@ tweetsbysegment$segment <- factor(tweetsbysegment$segment, levels = c("99 Second
 #  "Gwen Diagram", "Break 3", "Beren Van Daele", "99 Second Talks")
 
 
-plot2 <- ggplot(tweetsbysegment, aes(x=segment, y=totaltweets, fill=totalsentiment))+
-  geom_bar(stat="identity", colour= "black")+
-  coord_flip()+
-  labs(x="Segment", y="Tweet Quantity")+
-  ggtitle("Segment by Tweet Quantity and Sentiment")
-
-
-plot2 + scale_fill_gradient(low="magenta", high="yellow")+ labs(fill='Positivity')
-  
-
 
 # Tweet Frequency polygon
 
-plot3 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_score)) +
+plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_score)) +
                 ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
                 scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
                 scale_y_continuous(breaks = seq(0,120, by=10))+
@@ -665,10 +662,9 @@ plot3 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_sc
   annotate("label", x=confdaytweets[30,19], y=-5, label= "99 Second\nTalks", color="black", fill ="#FBBC05", alpha=0.3) 
 
 
-plot3 
+plot2 
 
 
-# + theme(axis.text.x = element_text(angle=30))
 
 # create a data frame of tweets created while a speaker was talking
 # and insert name of speaker talking at the time in a new column
@@ -713,23 +709,7 @@ speakerdf <- rbind(jamesbach, iainbright, kimknup, stephenmounsey,
                    duncannesbitt, helenajoep, markwinteringham,
                    huibschoots, gwendiagram, berenvandaele, nnstalks)
 
-plot4 <- ggplot(speakerdf, aes(factor(speaker), sentiment_score))
-plot4 + geom_boxplot() + coord_flip()
 
 
-# try a line plot of sentiment
 
-plot5 <- ggplot(confdaytweets, aes(x =confdaytweets$created, y=confdaytweets$sentiment_score, fill = sentiment_score)) +
-  ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
-  scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
- # scale_y_continuous(breaks = seq(0,120, by=10))+
-  labs(x="Time", y="Tweet Count")+
-#  geom_line()
-  geom_smooth(method ="loess")
-  
-  
-  plot5
-  
-  ?geom_line
-  ?geom_smooth
   
