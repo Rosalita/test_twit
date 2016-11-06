@@ -9,6 +9,9 @@
 
 
 #install.packages("twitteR")
+#install.packages("openssl")
+#install.packages("RCurl")
+#install.packages("curl")
 #install.packages("ROAuth", dependencies = TRUE)
 #install.packages("bitops")
 #install.packages("httr")
@@ -33,7 +36,8 @@ library(scales)
 
 # Set working directory to project root
 # setwd("C:/Dev/git/test_twit")
-setwd("C:/git/test_twit")
+# setwd("C:/git/test_twit")
+setwd("~/Git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -423,7 +427,9 @@ plot <- ggplot(confdaytweets, aes(x = created, y = sentiment_score))+
   
 
   plot
-
+  
+plot + geom_smooth(method ="loess", span=0.1, colour="yellow" )
+?geom_smooth
 
 #most positive tweet  
  index <- which(confdaytweets$sentiment_score == 6)
@@ -661,6 +667,7 @@ plot3 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_sc
 
 plot3 
 
+
 # + theme(axis.text.x = element_text(angle=30))
 
 # create a data frame of tweets created while a speaker was talking
@@ -709,3 +716,20 @@ speakerdf <- rbind(jamesbach, iainbright, kimknup, stephenmounsey,
 plot4 <- ggplot(speakerdf, aes(factor(speaker), sentiment_score))
 plot4 + geom_boxplot() + coord_flip()
 
+
+# try a line plot of sentiment
+
+plot5 <- ggplot(confdaytweets, aes(x =confdaytweets$created, y=confdaytweets$sentiment_score, fill = sentiment_score)) +
+  ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
+  scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
+ # scale_y_continuous(breaks = seq(0,120, by=10))+
+  labs(x="Time", y="Tweet Count")+
+#  geom_line()
+  geom_smooth(method ="loess")
+  
+  
+  plot5
+  
+  ?geom_line
+  ?geom_smooth
+  
