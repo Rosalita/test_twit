@@ -35,9 +35,9 @@ library(scales)
 
 
 # Set working directory to project root
-# setwd("C:/Dev/git/test_twit")
+ setwd("C:/Dev/git/test_twit")
 # setwd("C:/git/test_twit")
-setwd("~/Git/test_twit")
+#setwd("~/Git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -477,8 +477,44 @@ plot + geom_smooth(method ="loess", span=0.1, colour="yellow" )
  # https://twitter.com/Tweet_Cassandra/status/789605366468313088
  
 
- # start dividing tweets up by event segment so can plot quantity by time
+# try extract platform data for conference day tweets
+# Start by binding a column named 'platform' containing NA onto dataframe which will be used to hold this data
+platform <- NA
+confdaytweets <- cbind(confdaytweets, platform)
+  
  
+#Tweet Lanes is an android apps so include it in android sources
+index <- grep("Twitter for Android|TweetCaster for Android|Echofon  Android|Tweet Lanes", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "Android"
+
+ 
+index <- grep("Twitter for iPhone", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "iPhone"
+ 
+index <- grep("Tweetbot for i??S", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "ios"
+ 
+index <- grep("Twitter for iPad", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "iPad"
+ 
+index <- grep("Twitter for Mac", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "Mac"
+ 
+index <- grep("Mobile Web", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "Mobile Web"
+
+index <- grep("Twitter Web Client", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "Web Client"
+
+index <- grep("Twitter for Windows", confdaytweets$statusSource)
+confdaytweets$platform[index] <- "Windows"
+
+# Any values still set to NA change their platform to 'Unknown' 
+index <- which(is.na(confdaytweets$platform))
+confdaytweets$platform[index] <- "Unknown"
+ 
+
+# start dividing tweets up by event segment so can analyse segments
 
 # Tweets made during registration and lean coffee
 index <- as.numeric(confdaytweets$created) %in% confdaytweets[1,19]:confdaytweets[2,19] 
@@ -664,6 +700,29 @@ plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_sc
 
 plot2 
 
+#subset android tweets
+index <- which(confdaytweets$platform == "Android")
+android <- confdaytweets[index,]
+
+# there are 719 android tweets and 1779 total tweets
+# so android tweets is 1060 values shorter
+# need to pad it out by 1060 so can plot android tweets and total tweets on same plot
+
+# find how many rows to pad
+pad <- nrow(confdaytweets) - nrow(android)
+#make a blank row
+blankrow <- rep(NA, 20)
+
+for( i in 1:pad){
+  if (nrow(android) != nrow(confdaytweets)){
+    android <- rbind(android,blankrow)
+  }
+}
+
+
+# show android tweets in red
+plot2 + geom_freqpoly(binwidth = 1000, aes(x =android$created, colour="red"))
+
 
 
 # create a data frame of tweets created while a speaker was talking
@@ -712,4 +771,3 @@ speakerdf <- rbind(jamesbach, iainbright, kimknup, stephenmounsey,
 
 
 
-  
