@@ -630,12 +630,12 @@ tweetsbysegment$segment <- factor(tweetsbysegment$segment, levels = c("99 Second
 
 # Tweet Frequency polygon
 
-plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_score)) +
+plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created)) +
                 ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
                 scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
                 scale_y_continuous(breaks = seq(0,120, by=10))+
                 labs(x="Time", y="Tweet Count")+
-                geom_freqpoly(binwidth = 1000)+
+                geom_freqpoly(binwidth = 1000, colour="black")+
   
   # Lean Coffee Rect
   annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
@@ -700,28 +700,10 @@ plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created, fill = sentiment_sc
 
 plot2 
 
-#subset android tweets
-index <- which(confdaytweets$platform == "Android")
-android <- confdaytweets[index,]
 
-# there are 719 android tweets and 1779 total tweets
-# so android tweets is 1060 values shorter
-# need to pad it out by 1060 so can plot android tweets and total tweets on same plot
-
-# find how many rows to pad
-pad <- nrow(confdaytweets) - nrow(android)
-#make a blank row
-blankrow <- rep(NA, 20)
-
-for( i in 1:pad){
-  if (nrow(android) != nrow(confdaytweets)){
-    android <- rbind(android,blankrow)
-  }
-}
-
-
-# show android tweets in red
-plot2 + geom_freqpoly(binwidth = 1000, aes(x =android$created, colour="red"))
+# as well as total show quantity of tweets for each platform
+plot2 + geom_freqpoly(binwidth = 1000, aes(x =confdaytweets$created, colour=platform))
+    #  geom_freqpoly(binwidth = 1000, aes(x =iphone$created, colour=platform))
 
 
 
