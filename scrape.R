@@ -35,9 +35,9 @@ library(scales)
 
 
 # Set working directory to project root
- setwd("C:/Dev/git/test_twit")
+# setwd("C:/Dev/git/test_twit")
 # setwd("C:/git/test_twit")
-#setwd("~/Git/test_twit")
+setwd("~/Git/test_twit")
 
 # Make sure Twitter account has a phone number attached.
 # Go to Twitter apps page (https://apps.twitter.com/) and create a new app
@@ -358,6 +358,9 @@ confdaytweets[27,19] = "2016-10-21 15:22:30 GMT" # mid Huib Schoots
 confdaytweets[28,19] = "2016-10-21 16:00:00 GMT" # mid Gwen Diagram
 confdaytweets[29,19] = "2016-10-21 17:00:00 GMT" # mid Beren Van Daele
 confdaytweets[30,19] = "2016-10-21 17:30:00 GMT" # mid 99 Second Talks
+# add time stamps for xlim on plots
+confdaytweets[31,19] = "2016-10-21 05:30:00 GMT"
+confdaytweets[32,19] = "2016-10-22 01:30:00 GMT"  
 
 # convert location of lines to dates to POSIXct
 confdaytweets$keytimes <- as.POSIXct(confdaytweets$keytimes, tz="GMT")
@@ -626,16 +629,24 @@ tweetsbysegment$segment <- factor(tweetsbysegment$segment, levels = c("99 Second
 #  "Helena & Joep", "Mark Winteringham", "Break 2", "Huib Schoots",
 #  "Gwen Diagram", "Break 3", "Beren Van Daele", "99 Second Talks")
 
-
+?scale_x_datetime
 
 # Tweet Frequency polygon
 
 plot2 <- ggplot(confdaytweets, aes(x =confdaytweets$created)) +
-                ggtitle("Tweet Frequency Polygon for #testbash Manchester")+
-                scale_x_datetime(date_breaks = "1 hour", date_labels = "%H:%M")+
+                ggtitle("Tweet Count for #testbash Manchester")+
+                scale_x_datetime(date_breaks = "2 hour", date_labels = "%H:%M")+
+
                 scale_y_continuous(breaks = seq(0,120, by=10))+
-                labs(x="Time", y="Tweet Count")+
-                geom_freqpoly(binwidth = 1000, colour="black")+
+                labs(x="Time", y="Tweet Count", colour ="Tweets by platform")+
+#                xlim(confdaytweets[31,19],confdaytweets[32,19])+
+                geom_freqpoly(binwidth = 1000, aes(x=confdaytweets$created, colour="All Platforms"))+
+                scale_color_manual(values=c("#000000", "#009939", "#3369e8", "#d50f25",
+                                            "#eeb211", "#00FFFF","#ff00ff", "#ffff00", "#00ff00"))+
+
+
+             
+  
   
   # Lean Coffee Rect
   annotate("rect", xmin=confdaytweets[1,19], xmax=confdaytweets[2,19],ymin=0, ymax=105, alpha=0.3, fill="#4285F4")+
@@ -703,8 +714,7 @@ plot2
 
 # as well as total show quantity of tweets for each platform
 plot2 + geom_freqpoly(binwidth = 1000, aes(x =confdaytweets$created, colour=platform))
-    #  geom_freqpoly(binwidth = 1000, aes(x =iphone$created, colour=platform))
-
+     
 
 
 # create a data frame of tweets created while a speaker was talking
