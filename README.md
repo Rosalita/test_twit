@@ -8,3 +8,5 @@ This code does the following:
 * Tweet text is converted to UTF-8 so emojiis don't break anything, converted to lower case, broken down into individual words.
 * A list of 6800+ positive and negative words compiled by Bing Liu and Minqing Hu of the University of Illinois at Chicago has been used as a starting point to categorise words into positive and negative. This list has been modified to take UK English into account e.g. 'honour' has been added as only US spelling 'honor' was present. Words like 'buzzing' have been moved from negative to positive as they were used in a positive context
 * Tweet words are compared against the list of positive and negative words and word clouds generated.
+* Ggplot2 is also used to plot tweet frequency and sentiment.
+
